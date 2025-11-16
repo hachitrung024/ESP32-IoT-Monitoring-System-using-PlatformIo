@@ -1,10 +1,7 @@
 #include "core_iot.h"
-
 //Shared Attributes Configuration
 constexpr uint8_t MAX_ATTRIBUTES = 1;
-constexpr std::array<const char*, MAX_ATTRIBUTES> 
-SHARED_ATTRIBUTES = 
-{
+constexpr std::array<const char*, MAX_ATTRIBUTES> SHARED_ATTRIBUTES = {
   "POWER"
 };
 void requestTimedOut() {
@@ -57,13 +54,46 @@ void checkFWUpdate(void * pvParameters){
   if(ota.Start_Firmware_Update(callback)) Serial.println("Done");
   vTaskDelete(NULL);
 }
-void handleRequest(const JsonVariantConst &data, JsonDocument &response){
-  Serial.println("Received a RPC request");
-  //Info
-  const size_t jsonSize = Helper::Measure_Json(data);
-  char buffer[jsonSize];
-  serializeJson(data, buffer, jsonSize);
-  Serial.println(buffer);
+void handlePOWER1(const JsonVariantConst &data, JsonDocument &response){
+  Serial.println("Received POWER1 RPC request");
+  bool newState = false;  
+  if (data.is<bool>()) {
+      newState = data.as<bool>();
+  } else {
+      Serial.println("Error: RPC data was not a boolean.");
+      return; // Ignore invalid data
+  }
+
+  // Create the command structure
+  RelayCommand_t cmd;
+  cmd.target_id = 1;       // 1 = POWER1
+  cmd.state = newState;    // true (ON) or false (OFF)
+
+  // Send the command to the relay task queue (non-blocking)
+  if (xQueueSend(xRelayControlQueue, &cmd, 0) != pdPASS) {
+      // Handle error if the queue is full
+      Serial.println("Relay control queue is full!");
+  }
+}
+void handlePOWER2(const JsonVariantConst &data, JsonDocument &response){
+  bool newState = false;  
+  if (data.is<bool>()) {
+      newState = data.as<bool>();
+  } else {
+      Serial.println("Error: RPC data was not a boolean.");
+      return; // Ignore invalid data
+  }
+
+  // Create the command structure
+  RelayCommand_t cmd;
+  cmd.target_id = 2;       // 2 = POWER2
+  cmd.state = newState;    // true (ON) or false (OFF)
+
+  // Send the command to the relay task queue (non-blocking)
+  if (xQueueSend(xRelayControlQueue, &cmd, 0) != pdPASS) {
+      // Handle error if the queue is full
+      Serial.println("Relay control queue is full!");
+  }
 }
 void processSharedAttributeUpdate(const JsonObjectConst &data) {
   //Info
@@ -80,6 +110,7 @@ void processSharedAttributeRequest(const JsonObjectConst &data) {
   serializeJson(data, buffer, jsonSize);
   Serial.println(buffer);
 }
+
 bool subscribeToAPIs(){
   if (!currentFWSent) {
     currentFWSent = ota.Firmware_Send_Info(CURRENT_FIRMWARE_TITLE, CURRENT_FIRMWARE_VERSION);
@@ -101,7 +132,8 @@ bool subscribeToAPIs(){
   if (!rpc_subscribed){
     Serial.print("Subscribing for RPC...");
     const RPC_Callback callbacks[MAX_RPC_SUBSCRIPTIONS]= {
-        {"rpc_method", handleRequest}
+        {"POWER1", handlePOWER1},
+        {"POWER2", handlePOWER2}
     };
     if(!rpc.RPC_Subscribe(callbacks + 0U, callbacks + MAX_RPC_SUBSCRIPTIONS)){
       Serial.println("Failed");

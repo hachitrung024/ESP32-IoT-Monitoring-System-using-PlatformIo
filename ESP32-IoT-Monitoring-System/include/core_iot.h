@@ -21,13 +21,9 @@ constexpr uint8_t FIRMWARE_FAILURE_RETRIES = 12U;
 // increased packet size, might increase download speed
 constexpr uint16_t FIRMWARE_PACKET_SIZE = 32768U;
 //RPC configuration
-constexpr uint8_t MAX_RPC_SUBSCRIPTIONS = 1U;
+constexpr uint8_t MAX_RPC_SUBSCRIPTIONS = 2U;
 constexpr uint8_t MAX_RPC_RESPONSE = 5U;
 constexpr char CONNECTING_MSG[] = "Connecting to: (%s) with token (%s)";
-constexpr char RPC_METHOD[] = "rpc_method";
-
-// constexpr char WIFI_SSID[] = "hyperion2";
-// constexpr char WIFI_PASSWORD[] = "qwerqwer";
 
 constexpr char TOKEN[] = "M3ycLNYqVOVjcAvlEyx3";
 constexpr char THINGSBOARD_SERVER[] = "app.coreiot.io";

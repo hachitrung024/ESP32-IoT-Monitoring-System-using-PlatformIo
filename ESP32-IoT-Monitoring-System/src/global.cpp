@@ -20,3 +20,11 @@ SemaphoreHandle_t xGlobMutex = xSemaphoreCreateMutex();
 SemaphoreHandle_t xApModeMutex = xSemaphoreCreateMutex();
 SemaphoreHandle_t xConnectingMutex = xSemaphoreCreateMutex();
 SemaphoreHandle_t xWifiConnectedMutex = xSemaphoreCreateMutex();
+
+// --- Pin Definitions ---
+const int POWER1_PIN = 48;
+const int POWER2_PIN = 6;
+
+// --- Queue Definition ---
+// Define the actual Queue Handle variable
+QueueHandle_t xRelayControlQueue = NULL;

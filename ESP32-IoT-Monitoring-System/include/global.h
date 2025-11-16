@@ -33,4 +33,17 @@ extern SemaphoreHandle_t xConnectingMutex;
 // Mutex protect is_wifi_connected
 extern SemaphoreHandle_t xWifiConnectedMutex;
 
+// Define pin numbers
+extern const int POWER1_PIN;
+extern const int POWER2_PIN;
+
+// This struct will be sent through the Queue
+typedef struct {
+    uint8_t target_id; // 1 for POWER1, 2 for POWER2
+    bool    state;       // true (ON) or false (OFF)
+    // You can add source_id here if needed
+} RelayCommand_t;
+
+// Declare the Queue Handle
+extern QueueHandle_t xRelayControlQueue;
 #endif
