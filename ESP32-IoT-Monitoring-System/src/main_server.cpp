@@ -290,12 +290,24 @@ void handleToggle()
   if (led == 1)
   {
     led1_state = !led1_state;
-    Serial.println("YOUR CODE TO CONTROL LED1");
+    // Serial.println("YOUR CODE TO CONTROL LED1");
+    RelayCommand_t cmd = {.target_id = 0, .state = led1_state};
+    // Send the command to the relay task queue (non-blocking)
+    if (xQueueSend(xRelayControlQueue, &cmd, 0) != pdPASS) {
+        // Handle error if the queue is full
+        Serial.println("Relay control queue is full!");
+    }
   }
   else if (led == 2)
   {
     led2_state = !led2_state;
-    Serial.println("YOUR CODE TO CONTROL LED2");
+    // Serial.println("YOUR CODE TO CONTROL LED2");
+    RelayCommand_t cmd = {.target_id = 1, .state = led2_state};
+    // Send the command to the relay task queue (non-blocking)
+    if (xQueueSend(xRelayControlQueue, &cmd, 0) != pdPASS) {
+        // Handle error if the queue is full
+        Serial.println("Relay control queue is full!");
+    }
   }
   server.send(200, "application/json",
               "{\"led1\":\"" + String(led1_state ? "ON" : "OFF") +
