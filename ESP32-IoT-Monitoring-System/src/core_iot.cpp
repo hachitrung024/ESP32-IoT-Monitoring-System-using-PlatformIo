@@ -47,7 +47,7 @@ void finishedCallback(const bool & success) {
 void progressCallback(const size_t & current, const size_t & total) {
   Serial.printf("Progress %.2f%%\n", static_cast<float>(current * 100U) / total);
 }
-void checkFWUpdate(void * pvParameters){
+static void vCheckFWUpdateTask(void * pvParameters){
   vTaskDelay(10000);
   const OTA_Update_Callback callback(CURRENT_FIRMWARE_TITLE, CURRENT_FIRMWARE_VERSION, &updater, &finishedCallback, &progressCallback, &updateStartingCallback, FIRMWARE_FAILURE_RETRIES, FIRMWARE_PACKET_SIZE);
   Serial.print("");
@@ -63,12 +63,7 @@ void handlePOWER1(const JsonVariantConst &data, JsonDocument &response){
       Serial.println("Error: RPC data was not a boolean.");
       return; // Ignore invalid data
   }
-
-  // Create the command structure
-  RelayCommand_t cmd;
-  cmd.target_id = 1;       // 1 = POWER1
-  cmd.state = newState;    // true (ON) or false (OFF)
-
+  RelayCommand_t cmd = {.target_id = 0, .state = newState};
   // Send the command to the relay task queue (non-blocking)
   if (xQueueSend(xRelayControlQueue, &cmd, 0) != pdPASS) {
       // Handle error if the queue is full
@@ -83,12 +78,8 @@ void handlePOWER2(const JsonVariantConst &data, JsonDocument &response){
       Serial.println("Error: RPC data was not a boolean.");
       return; // Ignore invalid data
   }
-
   // Create the command structure
-  RelayCommand_t cmd;
-  cmd.target_id = 2;       // 2 = POWER2
-  cmd.state = newState;    // true (ON) or false (OFF)
-
+  RelayCommand_t cmd = {.target_id = 1, .state = newState};
   // Send the command to the relay task queue (non-blocking)
   if (xQueueSend(xRelayControlQueue, &cmd, 0) != pdPASS) {
       // Handle error if the queue is full
@@ -123,7 +114,7 @@ bool subscribeToAPIs(){
     updateRequestSent = ota.Subscribe_Firmware_Update(callback);
     if(updateRequestSent) {
       Serial.println("Done");
-      xTaskCreate(checkFWUpdate, "Check Firmware Update", 4096, NULL, 5, NULL);
+      xTaskCreate(vCheckFWUpdateTask, "Check Firmware Update", 4096, NULL, 5, NULL);
     } else {
       Serial.println("Failed");
       return false;
@@ -164,10 +155,17 @@ bool subscribeToAPIs(){
   return true;
 }
 
+static void vMqttPublishTask(void * pvParameters){
+  for(;;){
+    tb.sendTelemetryString(getSensorDataJsonString().c_str());
+    vTaskDelay(10000 / portTICK_PERIOD_MS);
+  }
+}
+
 void coreiot_task(void * pvParameters){
   bool wifi_connected = false;
   bool apis_subscribed = false;
-
+  xTaskCreate(vMqttPublishTask, "MQTT Publish Task", 2048, NULL, 3, NULL);
   for(;;){
     vTaskDelay(100 / portTICK_PERIOD_MS);
     if (xSemaphoreTake(xWifiConnectedMutex, portMAX_DELAY) == pdTRUE) {
