@@ -157,7 +157,9 @@ bool subscribeToAPIs(){
 
 static void vMqttPublishTask(void * pvParameters){
   for(;;){
-    tb.sendTelemetryString(getSensorDataJsonString().c_str());
+    String telemetry = getSensorDataJsonString();
+    Serial.println("Sending telemetry: " + telemetry);
+    tb.sendTelemetryString(telemetry.c_str());
     vTaskDelay(5000 / portTICK_PERIOD_MS);
   }
 }

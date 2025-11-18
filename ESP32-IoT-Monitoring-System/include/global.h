@@ -70,6 +70,8 @@ extern HardwareSerial SERIAL_RS485; // RS485 to UART Module
 #define SERIAL_RS485_TX_PIN 7
 #define SERIAL_RS485_RX_PIN 6
 
+#define I2C_SDA 11
+#define I2C_SCL 12
 // --- Sensor Definitions ---
 // Sensor Identifiers
 typedef enum {

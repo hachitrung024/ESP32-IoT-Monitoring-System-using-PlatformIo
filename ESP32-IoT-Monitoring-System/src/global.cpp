@@ -42,8 +42,8 @@ String getSensorDataJsonString () {
     char buffer[64];
     bool first = true;
     for (int id = 0; id < SENSOR_COUNT; id++) {
-        // Wait for each sensor task to signal completion, with timeout 1000 ms
-        if (xQueueReceive(xSensorDataQueue, &buffer, pdMS_TO_TICKS(1000)) == pdPASS) {
+        // Wait for each sensor task to signal completion, with timeout 2000 ms
+        if (xQueueReceive(xSensorDataQueue, &buffer, pdMS_TO_TICKS(2000)) == pdPASS) {
             if (!first) {
                 json += ",";
             }
