@@ -163,15 +163,10 @@ void coreiot_task(void * pvParameters){
   bool apis_subscribed = false;
   String telemetry;
 
+  if (xSemaphoreTake(xBinarySemaphoreInternet, portMAX_DELAY) == pdTRUE) {
+    Serial.println("Connected to Wifi");
+  }
   for(;;){
-    vTaskDelay(100 / portTICK_PERIOD_MS);
-    if (xSemaphoreTake(xWifiConnectedMutex, portMAX_DELAY) == pdTRUE) {
-      wifi_connected = is_wifi_connected;
-      xSemaphoreGive(xWifiConnectedMutex);
-    }
-    if (!wifi_connected) {
-      continue;
-    }
     if (!tb.connected()) {
       // Reconnect to the ThingsBoard server,
       // if a connection was disrupted or has not yet been established
@@ -196,6 +191,6 @@ void coreiot_task(void * pvParameters){
     }
 
     tb.loop();
-    vTaskDelay(10);
+    vTaskDelay(10 / portTICK_PERIOD_MS);
   }
 }
