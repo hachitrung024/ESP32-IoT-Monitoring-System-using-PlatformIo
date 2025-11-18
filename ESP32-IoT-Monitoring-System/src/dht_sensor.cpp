@@ -21,6 +21,11 @@ void dht_task (void * pvParameter){
             humidity = -1.0f;
         }
         // Serial.printf("[DHT%d] Temp: %.2f°C | Humi:%.2f%%\n", DHT_TYPE, temperature, humidity);
+        if (xSemaphoreTake(xGlobMutex, portMAX_DELAY) == pdTRUE) {
+            glob_temperature = temperature;
+            glob_humidity = humidity;
+            xSemaphoreGive(xGlobMutex);
+        }
         snprintf(json, sizeof(json), "{\"DHT-Temp\":%.2f,\"DHT-Humi\":%.2f}", temperature, humidity);
         if (xQueueSend(xSensorDataQueue, &json, 0) != pdPASS) {
             Serial.println("[DHT] Failed to send telemetry data to queue");
