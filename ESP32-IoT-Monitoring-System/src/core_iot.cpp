@@ -1,4 +1,7 @@
 #include "core_iot.h"
+constexpr int16_t telemetrySendInterval = 5000U;
+uint32_t previousDataSend = 0;
+
 //Shared Attributes Configuration
 constexpr uint8_t MAX_ATTRIBUTES = 1;
 constexpr std::array<const char*, MAX_ATTRIBUTES> SHARED_ATTRIBUTES = {
@@ -155,19 +158,11 @@ bool subscribeToAPIs(){
   return true;
 }
 
-static void vMqttPublishTask(void * pvParameters){
-  for(;;){
-    String telemetry = getSensorDataJsonString();
-    Serial.println("Sending telemetry: " + telemetry);
-    tb.sendTelemetryString(telemetry.c_str());
-    vTaskDelay(5000 / portTICK_PERIOD_MS);
-  }
-}
-
 void coreiot_task(void * pvParameters){
   bool wifi_connected = false;
   bool apis_subscribed = false;
-  xTaskCreate(vMqttPublishTask, "MQTT Publish Task", 2048, NULL, 3, NULL);
+  String telemetry;
+
   for(;;){
     vTaskDelay(100 / portTICK_PERIOD_MS);
     if (xSemaphoreTake(xWifiConnectedMutex, portMAX_DELAY) == pdTRUE) {
@@ -191,6 +186,16 @@ void coreiot_task(void * pvParameters){
         continue;
       }
     }
-  tb.loop();
+
+    if (millis() - previousDataSend > telemetrySendInterval) {
+      previousDataSend = millis();
+      telemetry = getSensorDataJsonString();
+
+      Serial.println("Sending telemetry: " + telemetry);
+      tb.sendTelemetryString(telemetry.c_str());
+    }
+
+    tb.loop();
+    vTaskDelay(10);
   }
 }
