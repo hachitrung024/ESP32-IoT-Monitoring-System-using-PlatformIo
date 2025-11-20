@@ -8,8 +8,8 @@ String CORE_IOT_PORT;
 
 String AP_SSID = "ESP32-AP";
 String AP_PASSWORD = "12345678";
-String WIFI_SSID = "A18.02";
-String WIFI_PASSWORD = "18021802";
+String WIFI_SSID = "";
+String WIFI_PASSWORD = "";
 
 bool is_ap_mode = true;
 bool is_connecting = false;
