@@ -11,43 +11,42 @@ void neo_led_task(void *pvParameters) {
   strip.begin();
   strip.clear();
   strip.show();
-
-  bool ap_mode = false;
-  bool connecting = false;
-  bool wifi_connected = false;
-
+  // Signal-driven operation: wait until someone signals an update
   while (1) {
-    if (xSemaphoreTake(xApModeMutex, pdMS_TO_TICKS(200)) == pdTRUE) {
-      ap_mode = is_ap_mode;
-      xSemaphoreGive(xApModeMutex);
-    }
-    if (xSemaphoreTake(xConnectingMutex, pdMS_TO_TICKS(200)) == pdTRUE) {
-      connecting = is_connecting;
-      xSemaphoreGive(xConnectingMutex);
-    }
-    if (xSemaphoreTake(xWifiConnectedMutex, pdMS_TO_TICKS(200)) == pdTRUE) {
-      wifi_connected = is_wifi_connected;
-      xSemaphoreGive(xWifiConnectedMutex);
-    }
+    // Wait indefinitely until signaled to update
+    // xSemaphoreGive(xNeoUpdateSemaphore);
+    if (xSemaphoreTake(xNeoUpdateSemaphore, portMAX_DELAY) == pdTRUE) {
+      bool ap_mode = false;
+      bool connecting = false;
+      bool wifi_connected = false;
 
-    if (ap_mode) {
-      // AP mode: Blue, hold 1000 ms
-      neoSetColor(0, 0, 255);
-      vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-    else if (connecting) {
-      // Connecting: Red, hold 100 ms
-      neoSetColor(255, 0, 0);
-      vTaskDelay(pdMS_TO_TICKS(100));
-    }
-    else if (wifi_connected) {
-      // Connected: Green
-      neoSetColor(0, 255, 0);
-      vTaskDelay(pdMS_TO_TICKS(1000));
-    }
-    else {
-      neoSetColor(0, 0, 0);
-      vTaskDelay(pdMS_TO_TICKS(1000));
+      // Read shared flags with short timeouts to avoid long blocking
+      if (xSemaphoreTake(xApModeMutex, pdMS_TO_TICKS(50)) == pdTRUE) {
+        ap_mode = is_ap_mode;
+        xSemaphoreGive(xApModeMutex);
+      }
+      if (xSemaphoreTake(xConnectingMutex, pdMS_TO_TICKS(50)) == pdTRUE) {
+        connecting = is_connecting;
+        xSemaphoreGive(xConnectingMutex);
+      }
+      if (xSemaphoreTake(xWifiConnectedMutex, pdMS_TO_TICKS(50)) == pdTRUE) {
+        wifi_connected = is_wifi_connected;
+        xSemaphoreGive(xWifiConnectedMutex);
+      }
+
+      if (ap_mode) {
+        neoSetColor(0, 0, 255); // AP: Blue
+      } else if (connecting) {
+        // Blink pattern while connecting
+        neoSetColor(255, 0, 0);
+        vTaskDelay(pdMS_TO_TICKS(100));
+        neoSetColor(0, 0, 0);
+        vTaskDelay(pdMS_TO_TICKS(100));
+      } else if (wifi_connected) {
+        neoSetColor(0, 255, 0); // Connected: Green
+      } else {
+        neoSetColor(0, 0, 0); // Off
+      }
     }
   }
 }

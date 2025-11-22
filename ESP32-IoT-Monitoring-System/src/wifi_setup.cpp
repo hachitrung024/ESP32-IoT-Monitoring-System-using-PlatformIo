@@ -15,6 +15,7 @@ void startAP()
         is_connecting = false;
         xSemaphoreGive(xConnectingMutex);
     }
+    xSemaphoreGive(xNeoUpdateSemaphore);
 }
 
 void startSTA()
@@ -34,6 +35,7 @@ void startSTA()
         is_connecting = true;
         xSemaphoreGive(xConnectingMutex);
     }
+    xSemaphoreGive(xNeoUpdateSemaphore);
 
     if (WIFI_PASSWORD.isEmpty())
     {
@@ -50,6 +52,10 @@ void startSTA()
     }
 
     //Internet access
+    Serial.println("Info: Connected to WiFi");
+    Serial.println("WIFI_SSID = " + String(WIFI_SSID));
+    Serial.println("WIFI_PASSWORD = " + String(WIFI_PASSWORD));
+
     if (xSemaphoreTake(xWifiConnectedMutex, portMAX_DELAY) == pdTRUE) {
         is_wifi_connected = true;
         xSemaphoreGive(xWifiConnectedMutex);
@@ -62,8 +68,9 @@ void startSTA()
         is_connecting = false;
         xSemaphoreGive(xConnectingMutex);
     }
+    xSemaphoreGive(xNeoUpdateSemaphore);
 
-    //Give a semaphore here
+    // Begin signal that internet is available, connect to core IoT
     xSemaphoreGive(xBinarySemaphoreInternet);
 }
 
@@ -80,6 +87,8 @@ bool reconnectWiFi()
         is_wifi_connected = false;
         xSemaphoreGive(xWifiConnectedMutex);
     }
+    xSemaphoreGive(xNeoUpdateSemaphore);
+
     startSTA();
     return false;
 }

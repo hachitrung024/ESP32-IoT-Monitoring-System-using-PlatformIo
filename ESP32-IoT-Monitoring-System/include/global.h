@@ -33,6 +33,9 @@ extern SemaphoreHandle_t xConnectingMutex;
 // Mutex protect is_wifi_connected
 extern SemaphoreHandle_t xWifiConnectedMutex;
 
+// Semaphore to signal NeoPixel task to update
+extern SemaphoreHandle_t xNeoUpdateSemaphore;
+
 // --- Relay Definitions ---
 /* How to control the relays:
    Send a RelayCommand_t structure to the xRelayControlQueue queue.
