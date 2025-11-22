@@ -22,6 +22,7 @@ void startSTA()
 {
     if (WIFI_SSID.isEmpty())
     {
+        Serial.println("Info: Reconnect Wifi failed, SSID is empty");
         return;
     }
 
@@ -37,6 +38,7 @@ void startSTA()
     }
     xSemaphoreGive(xNeoUpdateSemaphore);
 
+    Serial.print("Info: Connecting to WiFi...");
     if (WIFI_PASSWORD.isEmpty())
     {
         WiFi.begin(WIFI_SSID.c_str());
@@ -48,10 +50,12 @@ void startSTA()
 
     while (WiFi.status() != WL_CONNECTED)
     {
+        Serial.print(".");
         vTaskDelay(100 / portTICK_PERIOD_MS);
     }
 
     //Internet access
+    Serial.println("");
     Serial.println("Info: Connected to WiFi");
     Serial.println("WIFI_SSID = " + String(WIFI_SSID));
     Serial.println("WIFI_PASSWORD = " + String(WIFI_PASSWORD));
