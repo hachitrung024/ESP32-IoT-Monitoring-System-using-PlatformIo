@@ -2,12 +2,12 @@
 
 #include "neo_blinky.h"
 
-// #include "main_server.h"
 #include "tiny_ml.h"
 #include "core_iot.h"
 #include "relay.h"
 #include "dht_sensor.h"
 #include "npk_sensor.h"
+#include "toogle_boot.h"
 #include "check_info_file.h"
 
 void setup()
@@ -17,7 +17,8 @@ void setup()
 
   checkInfoFile(0);
 
-  // xTaskCreate(neo_led_task, "NeoPixel Led Task", 2048, NULL, 2, NULL);
+  xTaskCreate(neo_led_task, "NeoPixel Led Task", 2048, NULL, 2, NULL);
+  xTaskCreate(toogle_boot_task, "Toggle Boot Task" ,4096  ,NULL  ,2 , NULL);
   // xTaskCreate(main_server_task, "Main Server Task" ,8192  ,NULL  ,2 , NULL);
   // xTaskCreate(coreiot_task, "CoreIOT Task" ,4096  ,NULL  ,2 , NULL);
   // xTaskCreate(relay_task, "Relay Control Task" ,2048  ,NULL  ,2 , NULL);

@@ -20,6 +20,14 @@ void loadInfoFile()
     CORE_IOT_TOKEN = strdup(doc["CORE_IOT_TOKEN"]);
     CORE_IOT_SERVER = strdup(doc["CORE_IOT_SERVER"]);
     CORE_IOT_PORT = strdup(doc["CORE_IOT_PORT"]);
+
+    // Debug output
+    Serial.println("Info: Loaded configuration from info.dat");
+    Serial.println("WIFI_SSID = " + String(WIFI_SSID));
+    Serial.println("WIFI_PASSWORD = " + String(WIFI_PASSWORD));
+    Serial.println("CORE_IOT_TOKEN = " + String(CORE_IOT_TOKEN));
+    Serial.println("CORE_IOT_SERVER = " + String(CORE_IOT_SERVER));
+    Serial.println("CORE_IOT_PORT = " + String(CORE_IOT_PORT));
   }
   file.close();
 }
@@ -29,6 +37,10 @@ void deleteInfoFile()
   if (LittleFS.exists("/info.dat"))
   {
     LittleFS.remove("/info.dat");
+    Serial.println("Info: Deleted configuration file info.dat");
+  }
+  else{
+    Serial.println("Info: Configuration file info.dat does not exist");
   }
   ESP.restart();
 }
@@ -50,6 +62,14 @@ void saveInfoFile(String wifi_ssid, String wifi_pass, String CORE_IOT_TOKEN, Str
   {
     serializeJson(doc, configFile);
     configFile.close();
+
+    // Debug output
+    Serial.println("Info: Configuration saved to info.dat");
+    Serial.println("WIFI_SSID = " + String(wifi_ssid));
+    Serial.println("WIFI_PASSWORD = " + String(wifi_pass));
+    Serial.println("CORE_IOT_TOKEN = " + String(CORE_IOT_TOKEN));
+    Serial.println("CORE_IOT_SERVER = " + String(CORE_IOT_SERVER));
+    Serial.println("CORE_IOT_PORT = " + String(CORE_IOT_PORT));
   }
   else
   {

@@ -1,22 +1,24 @@
 #include "toogle_boot.h"
 
-#define BOOT 0
+#define BOOT_PIN GPIO_NUM_0
 
 void toogle_boot_task(void *pvParameters)
 {
+    pinMode(BOOT_PIN, INPUT_PULLUP);
+
     unsigned long buttonPressStartTime = 0;
     while (true)
     {
-        if (digitalRead(BOOT) == LOW)
+        // BOOT Button to delte info.dat file
+        if (digitalRead(BOOT_PIN) == LOW)
         {
-            if (buttonPressStartTime == 0)
+            vTaskDelay(100 / portTICK_PERIOD_MS); // Debounce delay
+            if (digitalRead(BOOT_PIN) == LOW)
             {
-                buttonPressStartTime = millis();
-            }
-            else if (millis() - buttonPressStartTime > 2000)
-            {
+                Serial.println("Info: press detected, calling deleteInfoFile()");
                 deleteInfoFile();
-                vTaskDelete(NULL);
+
+                vTaskDelay(500 / portTICK_PERIOD_MS);
             }
         }
         else

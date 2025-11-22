@@ -20,6 +20,8 @@ SemaphoreHandle_t xGlobMutex = xSemaphoreCreateMutex();
 SemaphoreHandle_t xApModeMutex = xSemaphoreCreateMutex();
 SemaphoreHandle_t xConnectingMutex = xSemaphoreCreateMutex();
 SemaphoreHandle_t xWifiConnectedMutex = xSemaphoreCreateMutex();
+// Semaphore to trigger NeoPixel update task
+SemaphoreHandle_t xNeoUpdateSemaphore = xSemaphoreCreateBinary();
 
 HardwareSerial SERIAL_RS485(1); // Use UART1 for RS485
 
