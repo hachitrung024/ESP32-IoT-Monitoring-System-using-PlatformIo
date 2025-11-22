@@ -2,7 +2,7 @@
 
 #define BOOT 0
 
-void Task_Toogle_BOOT(void *pvParameters)
+void toogle_boot_task(void *pvParameters)
 {
     unsigned long buttonPressStartTime = 0;
     while (true)
@@ -15,7 +15,7 @@ void Task_Toogle_BOOT(void *pvParameters)
             }
             else if (millis() - buttonPressStartTime > 2000)
             {
-                Delete_info_File();
+                deleteInfoFile();
                 vTaskDelete(NULL);
             }
         }

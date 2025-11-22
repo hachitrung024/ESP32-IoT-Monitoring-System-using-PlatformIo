@@ -1,6 +1,6 @@
 #include "check_info_file.h"
 
-void Load_info_File()
+void loadInfoFile()
 {
   File file = LittleFS.open("/info.dat", "r");
   if (!file)
@@ -11,7 +11,7 @@ void Load_info_File()
   DeserializationError error = deserializeJson(doc, file);
   if (error)
   {
-    Serial.print(F("deserializeJson() failed: "));
+    Serial.print(F("Error: deserializeJson() failed!"));
   }
   else
   {
@@ -24,7 +24,7 @@ void Load_info_File()
   file.close();
 }
 
-void Delete_info_File()
+void deleteInfoFile()
 {
   if (LittleFS.exists("/info.dat"))
   {
@@ -33,7 +33,7 @@ void Delete_info_File()
   ESP.restart();
 }
 
-void Save_info_File(String wifi_ssid, String wifi_pass, String CORE_IOT_TOKEN, String CORE_IOT_SERVER, String CORE_IOT_PORT)
+void saveInfoFile(String wifi_ssid, String wifi_pass, String CORE_IOT_TOKEN, String CORE_IOT_SERVER, String CORE_IOT_PORT)
 {
   Serial.println(wifi_ssid);
   Serial.println(wifi_pass);
@@ -53,21 +53,21 @@ void Save_info_File(String wifi_ssid, String wifi_pass, String CORE_IOT_TOKEN, S
   }
   else
   {
-    Serial.println("Unable to save the configuration.");
+    Serial.println("Error: Unable to save the configuration!");
   }
   ESP.restart();
 };
 
-bool check_info_File(bool check)
+bool checkInfoFile(bool check)
 {
   if (!check)
   {
     if (!LittleFS.begin(true))
     {
-      Serial.println("❌ Lỗi khởi động LittleFS!");
+      Serial.println("Error: LittleFS startup failed!");
       return false;
     }
-    Load_info_File();
+    loadInfoFile();
   }
   
   if (WIFI_SSID.isEmpty() && WIFI_PASSWORD.isEmpty())

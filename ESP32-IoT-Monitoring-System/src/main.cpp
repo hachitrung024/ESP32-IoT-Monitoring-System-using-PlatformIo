@@ -15,7 +15,7 @@ void setup()
   Serial.begin(115200);
   Wire.begin(I2C_SDA,I2C_SCL);
 
-  check_info_File(0);
+  checkInfoFile(0);
 
   // xTaskCreate(neo_led_task, "NeoPixel Led Task", 2048, NULL, 2, NULL);
   // xTaskCreate(main_server_task, "Main Server Task" ,8192  ,NULL  ,2 , NULL);
@@ -28,16 +28,16 @@ void setup()
 
 void loop()
 {
-  if (check_info_File(1))
+  if (checkInfoFile(1))
   {
-    if (!Wifi_reconnect())
+    if (!reconnectWiFi())
     {
-      Webserver_stop();
+      stopWebserver();
     }
     else
     {
       //CORE_IOT_reconnect();
     }
   }
-  Webserver_reconnect();
+  reconnectWebserver();
 }

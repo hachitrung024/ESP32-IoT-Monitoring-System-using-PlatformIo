@@ -1,11 +1,11 @@
-#ifndef __TASK_WIFI_H__
-#define __TASK_WIFI_H__
+#ifndef __WIFI_SETUP_H__
+#define __WIFI_SETUP_H__
 
 #include <WiFi.h>
 #include <check_info_file.h>
 #include <webserver.h>
 
-extern bool Wifi_reconnect();
+extern bool reconnectWiFi();
 extern void startAP();
 
 #endif

@@ -23,7 +23,7 @@ void npk_sensor_task(void * pvParameter){
         if (result == npkNode.ku8MBSuccess) {
             nitrogen = npkNode.getResponseBuffer(0);
         } else {
-            Serial.printf("[NPK] Read N error: %u\n", result);
+            Serial.printf("Error: [NPK] Read N error: %u\n", result);
             nitrogen = 0;
         }
 
@@ -31,7 +31,7 @@ void npk_sensor_task(void * pvParameter){
         if (result == npkNode.ku8MBSuccess) {
             phosphorus = npkNode.getResponseBuffer(0);
         } else {
-            Serial.printf("[NPK] Read P error: %u\n", result);
+            Serial.printf("Error: [NPK] Read P error: %u\n", result);
             phosphorus = 0;
         }
 
@@ -39,7 +39,7 @@ void npk_sensor_task(void * pvParameter){
         if (result == npkNode.ku8MBSuccess) {
             potassium = npkNode.getResponseBuffer(0);
         } else {
-            Serial.printf("[NPK] Read K error: %u\n", result);
+            Serial.printf("Error: [NPK] Read K error: %u\n", result);
             potassium = 0;
         }
 
@@ -49,7 +49,7 @@ void npk_sensor_task(void * pvParameter){
                  nitrogen, phosphorus, potassium);
 
         if (xQueueSend(xSensorDataQueue, &telemetry_buffer, 0) != pdPASS) {
-            Serial.println("[NPK] Failed to send telemetry data to queue");
+            Serial.println("Error: [NPK] Failed to send telemetry data to queue");
         }
     }
 }

@@ -1,6 +1,5 @@
-
-#ifndef __TASK_WEBSERVER_H__
-#define __TASK_WEBSERVER_H__
+#ifndef __WEBSERVER_H__
+#define __WEBSERVER_H__
 
 #include <ESPAsyncWebServer.h>
 #include "LittleFS.h"
@@ -12,8 +11,8 @@
 extern AsyncWebServer server;
 extern AsyncWebSocket ws;
 
-void Webserver_stop();
-void Webserver_reconnect();
-void Webserver_sendata(String data);
+void stopWebserver();
+void reconnectWebserver();
+void sendDataWebserver(String data);
 
 #endif

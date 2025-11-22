@@ -14,7 +14,7 @@ void dht_task (void * pvParameter){
     Serial.println(DHT20_LIB_VERSION);
     Serial.println();
     delay(2000);
-    Serial.println("Type,\tStatus,\tHumidity (%),\tTemperature (C)");
+    // Serial.println("Type,\tStatus,\tHumidity (%),\tTemperature (C)");
 
     for(;;){
         EventBits_t uxBits = xEventGroupWaitBits(
@@ -57,7 +57,7 @@ void dht_task (void * pvParameter){
         humidity = dht.getHumidity();
 
         if (isnan(temperature) || isnan(humidity)) {
-            Serial.println(F("[DHT] Failed to read from DHT sensor!"));
+            Serial.println(F("Error: [DHT] Failed to read from DHT sensor!"));
             temperature = -1.0f;
             humidity = -1.0f;
         }
@@ -69,7 +69,7 @@ void dht_task (void * pvParameter){
         }
         snprintf(json, sizeof(json), "{\"DHT-Temp\":%.2f,\"DHT-Humi\":%.2f}", temperature, humidity);
         if (xQueueSend(xSensorDataQueue, &json, 0) != pdPASS) {
-            Serial.println("[DHT] Failed to send telemetry data to queue");
+            Serial.println("Error: [DHT] Failed to send telemetry data to queue");
         delay(2000);
         }
     }

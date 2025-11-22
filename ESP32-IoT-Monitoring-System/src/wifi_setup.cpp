@@ -12,7 +12,7 @@ void startSTA()
 {
     if (WIFI_SSID.isEmpty())
     {
-        vTaskDelete(NULL);
+        return;
     }
 
     WiFi.mode(WIFI_STA);
@@ -34,7 +34,7 @@ void startSTA()
     xSemaphoreGive(xBinarySemaphoreInternet);
 }
 
-bool Wifi_reconnect()
+bool reconnectWiFi()
 {
     const wl_status_t status = WiFi.status();
     if (status == WL_CONNECTED)

@@ -1,6 +1,6 @@
 
-#ifndef __TASK_HANDLER_H__
-#define __TASK_HANDLER_H__
+#ifndef __HANDLER_WEBSOCKET_H__
+#define __HANDLER_WEBSOCKET_H__
 
 #include <ArduinoJson.h>
 #include <check_info_file.h>

@@ -5,16 +5,16 @@ AsyncWebSocket ws("/ws");
 
 bool webserver_isrunning = false;
 
-void Webserver_sendata(String data)
+void sendDataWebserver(String data)
 {
     if (ws.count() > 0)
     {
-        ws.textAll(data); // Gửi đến tất cả client đang kết nối
-        Serial.println("📤 Đã gửi dữ liệu qua WebSocket: " + data);
+        ws.textAll(data); // Send to all connected clients
+        Serial.println("Info: Sent data via WebSocket: " + data);
     }
     else
     {
-        Serial.println("⚠️ Không có client WebSocket nào đang kết nối!");
+        Serial.println("Info: No WebSocket clients are currently connected!");
     }
 }
 
@@ -22,11 +22,11 @@ void onEvent(AsyncWebSocket *server, AsyncWebSocketClient *client, AwsEventType 
 {
     if (type == WS_EVT_CONNECT)
     {
-        Serial.printf("WebSocket client #%u connected from %s\n", client->id(), client->remoteIP().toString().c_str());
+        Serial.printf("Info: WebSocket client #%u connected from %s\n", client->id(), client->remoteIP().toString().c_str());
     }
     else if (type == WS_EVT_DISCONNECT)
     {
-        Serial.printf("WebSocket client #%u disconnected\n", client->id());
+        Serial.printf("Info: WebSocket client #%u disconnected\n", client->id());
     }
     else if (type == WS_EVT_DATA)
     {
@@ -57,14 +57,14 @@ void connnectWSV()
     webserver_isrunning = true;
 }
 
-void Webserver_stop()
+void stopWebserver()
 {
     ws.closeAll();
     server.end();
     webserver_isrunning = false;
 }
 
-void Webserver_reconnect()
+void reconnectWebserver()
 {
     if (!webserver_isrunning)
     {
