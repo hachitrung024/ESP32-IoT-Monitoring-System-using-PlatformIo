@@ -40,6 +40,8 @@ function onMessage(event) {
     try {
         var data = JSON.parse(event.data);
         // You can add specific handling here if needed (e.g., update status)
+        document.getElementById("tempValue").textContent = data.temperature + " °C";
+        document.getElementById("humiValue").textContent = data.humidity + " %";
     } catch (e) {
         console.warn("Invalid JSON:", event.data);
     }
@@ -103,7 +105,7 @@ function closeAddRelayDialog() {
 function saveRelay() {
     const name = document.getElementById('relayName').value.trim();
     const gpio = document.getElementById('relayGPIO').value.trim();
-    if (!name || !gpio) return alert("⚠️ Please fill all fields!");
+    if (!name || !gpio) return alert("Please fill all fields!");
     relayList.push({ id: Date.now(), name, gpio, state: false });
     renderRelays();
     closeAddRelayDialog();
