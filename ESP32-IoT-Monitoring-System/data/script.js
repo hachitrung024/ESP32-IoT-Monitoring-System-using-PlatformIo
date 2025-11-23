@@ -115,13 +115,31 @@ function renderRelays() {
         const card = document.createElement('div');
         card.className = 'device-card';
         card.innerHTML = `
-      <i class="fa-solid fa-bolt device-icon"></i>
-      <h3>${r.name}</h3>
-      <p>GPIO: ${r.gpio}</p>
-      <button class="toggle-btn ${r.state ? 'on' : ''}" onclick="toggleRelay(${r.id})">
+      <div class="device-header">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" 
+             stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="3" y="3" width="18" height="18" rx="4"></rect>
+        </svg>
+        <h4>${r.name}</h4>
+        </div>
+
+        <p class="gpio">GPIO: ${r.gpio}</p>
+        <p class="device-time">Last changed: ${r.lastChanged}</p>
+
+        <button class="toggle-btn ${r.state ? 'on' : ''}" onclick="toggleRelay(${r.id})">
         ${r.state ? 'ON' : 'OFF'}
-      </button>
-      <i class="fa-solid fa-trash delete-icon" onclick="showDeleteDialog(${r.id})"></i>
+        </button>
+
+        <svg class="delete-icon" onclick="showDeleteDialog(${r.id})" 
+            xmlns="http://www.w3.org/2000/svg" width="20" height="20" 
+            viewBox="0 0 24 24" fill="none" stroke="#ff6b6b" stroke-width="2" 
+            stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="3 6 5 6 21 6" />
+            <path d="M19 6l-1 14H6L5 6" />
+            <path d="M10 11v6" />
+            <path d="M14 11v6" />
+            <path d="M9 6V4h6v2" />
+        </svg>
     `;
         container.appendChild(card);
     });

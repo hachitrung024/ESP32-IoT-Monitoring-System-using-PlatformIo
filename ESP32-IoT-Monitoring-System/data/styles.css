@@ -109,6 +109,7 @@ body {
 .icon.orange { background: #ffe8d8; color: #ff8c3a; }
 .icon.cyan { background: #d6f6ff; color: #00bcd4; }
 .icon.green { background: #e0ffea; color: #24b66d; }
+.icon.purple { background: #f3e0ff; color: #b62477; }
 
 /* Charts row */
 .charts {
@@ -205,55 +206,106 @@ body {
   flex-wrap      : wrap;
   gap            : 25px;
   margin-top     : 30px;
-  justify-content: center;
+  justify-content: left;
 }
 
+/* Card */
 .device-card {
-  background   : #fff;
+  background: #fff; /* gradient sáng, tươi, dễ chịu */
   border-radius: 20px;
-  box-shadow   : 0 5px 20px rgba(0, 0, 0, 0.1);
-  width        : 240px;
-  padding      : 25px 20px;
-  text-align   : center;
-  position     : relative;
-  transition   : all 0.3s ease;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  width: 320px;
+  height: 150px;
+  padding: 20px;
+  text-align: left;
+  position: relative;
+  transition: all 0.3s ease;
+  margin-bottom: 0px;
+  margin-top: 0px;
 }
 
+/* Hover card */
 .device-card:hover {
-  transform : translateY(-5px);
-  box-shadow: 0 8px 25px rgba(34, 148, 242, 0.25);
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(34, 148, 242, 0.2);
 }
 
+/* Icon */
 .device-icon {
-  font-size    : 36px;
-  color        : #2294F2;
+  font-size: 36px;
+  color: #fff; /* trắng nổi bật trên nền gradient */
   margin-bottom: 10px;
 }
 
-.toggle-btn {
-  width        : 100%;
-  border       : none;
-  border-radius: 12px;
-  padding      : 12px;
-  font-weight  : 600;
-  font-size    : 16px;
-  cursor       : pointer;
-  background   : #e3e3e3;
-  transition   : 0.3s;
+/* Tên thiết bị */
+/* Tên thiết bị */
+.device-card h4 {
+  text-align: left;
+  margin: 0 0 8px 0;
+  font-size: 18px;
+  font-weight: 600;
+  margin-top: -10px;
+  color: #3a3a3a; /* xám đậm, nổi bật trên nền sáng */
 }
 
+/* GPIO */
+.gpio {
+  font-size: 14px;
+  color: #555555; /* xám trung, dễ đọc */
+  margin: 0 0 4px 0;
+}
+
+/* Thời gian */
+.device-time {
+  font-size: 12px;
+  color: #888888; /* xám nhạt, dịu mắt */
+  margin-top: 4px;
+  margin-bottom: 20px;
+}
+
+/* Nút toggle */
+.toggle-btn {
+  width: 80%;
+  border: none;
+  display: block;
+  margin: 0 auto;
+  border-radius: 14px;
+  padding: 12px;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  background: #ffffffcc; /* trắng mờ để nổi bật trên nền */
+  color: #2294F2; /* cùng tone xanh với icon */
+  transition: 0.25s ease;
+  box-shadow: inset 0 0 0 1px rgba(34,148,242,0.2); /* viền nhẹ xanh */
+}
+
+/* Hover khi không ON */
+.toggle-btn:hover {
+  background: #fff;
+  box-shadow: inset 0 0 0 1px rgba(34,148,242,0.3);
+}
+
+/* Trạng thái ON */
 .toggle-btn.on {
   background: linear-gradient(90deg, #2294F2, #1b7fe0);
-  color     : white;
-  box-shadow: 0 4px 12px rgba(34, 148, 242, 0.4);
+  color: white;
+  box-shadow: 0 4px 12px rgba(34, 148, 242, 0.5);
 }
 
+/* Hover khi ON */
+.toggle-btn.on:hover {
+  filter: brightness(1.07);
+}
+
+/* Delete icon */
 .delete-icon {
   position: absolute;
-  top     : 10px;
-  right   : 12px;
-  color   : #e74c3c;
-  cursor  : pointer;
+  top: 28px;
+  right: 12px;
+  color: #ff6b6b; /* đỏ sáng, nổi bật nhưng nhẹ hơn đỏ chói */
+  cursor: pointer;
+  transition: 0.2s;
 }
 
 .add-relay-btn {
@@ -278,6 +330,151 @@ body {
   transform : scale(1.08);
   box-shadow: 0 8px 25px rgba(34, 148, 242, 0.4);
 }
+
+/* Imformations Page */
+/* Header */
+.info-header h2 {
+  margin: 0 0 6px 0;
+  font-size: 22px;
+  font-weight: 700;
+  color: #3a3a3a; /* xám đậm, nổi bật */
+}
+
+.info-subtitle {
+  margin: 0 0 15px 0;
+  font-size: 14px;
+  color: #555555; /* xám trung */
+}
+
+/* Nội dung thông tin */
+.info-content {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Dòng thông tin */
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-radius: 12px;
+  background: #fff; /* trắng nổi bật trên nền kem */
+  box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+}
+
+/* Nhãn và giá trị */
+.info-label {
+  font-weight: 500;
+  color: #555;
+}
+
+.info-value {
+  font-weight: 600;
+  color: #333;
+}
+
+/* Alerts Page */
+/* Section chung (theme kem) */
+.section-alerts {
+  background: #fff;
+  border-radius: 16px;
+  padding: 18px;
+  margin: 18px 0;
+  box-shadow: 0 5px 20px rgba(0,0,0,0.06);
+}
+
+/* Header */
+.info-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+.info-header h2 { margin:0; font-size:20px; color:#333; }
+.info-subtitle { margin:0; font-size:13px; color:#666; }
+
+/* Controls (filter + clear button) */
+.alerts-controls {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+#alerts-filter {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: 1px solid #e6e2dc;
+  background: #fff;
+  font-size: 13px;
+}
+.small-btn {
+  padding: 7px 10px;
+  border-radius: 10px;
+  border: none;
+  background: #f2f0ec;
+  color: #444;
+  cursor: pointer;
+  font-size: 13px;
+}
+
+/* List */
+.alerts-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Item */
+.alert-item {
+  display: flex;
+  gap: 12px;
+  align-items: flex-start;
+  background: #fff;
+  padding: 12px;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+}
+
+/* Severity badge */
+.severity-badge {
+  min-width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 700;
+  font-size: 13px;
+}
+.alert-item.info  .severity-badge{ background:#2f86ff; }   
+.alert-item.warning .severity-badge{ background:#ff9f1a; } 
+.alert-item.critical .severity-badge{ background:#ff5c5c; }
+
+/* Body */
+.alert-body { flex: 1; }
+.alert-title { margin: 0; font-size: 15px; color: #2f2f2f; font-weight: 600; }
+.alert-meta  { margin-top: 6px; font-size: 12px; color: #777; }
+
+/* Actions */
+.alert-actions { display: flex; gap: 8px; align-items: center; margin-left: 8px; }
+.action-btn {
+  padding: 6px 8px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  font-size: 13px;
+}
+.action-btn.ack { background: #effaf6; color: #0a8a6b; }
+.action-btn.dismiss { background: #fff0f0; color: #c0392b; border: 1px solid rgba(192,57,43,0.08); }
+
+/* Khi đã acknowledged */
+.alert-item.acknowledged { opacity: 0.65; transform: scale(0.998); }
+
 
 
 /* Settings */

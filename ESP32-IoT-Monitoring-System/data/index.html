@@ -69,7 +69,9 @@
 
         <div class="stat-card">
           <div class="icon orange"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-    <path d="M17 14.14V5c0-2.21-1.79-4-4-4s-4 1.79-4 4v9.14C7.39 15.06 6 16.97 6 19c0 2.76 2.24 5 5 5s5-2.24 5-5c0-2.03-1.39-3.94-3-4.86zM11 5c0-1.1.9-2 2-2s2 .9 2 2v9.59l-.59.59C13.79 15.31 13 16.09 13 17c0 1.66 1.34 3 3 3s3-1.34 3-3c0-.91-.79-1.69-1.41-2.12l-.59-.59V5c0-1.66-1.34-3-3-3s-3 1.34-3 3v9.59l-.59.59C11.79 15.31 11 16.09 11 17c0 1.66 1.34 3 3 3s3-1.34 3-3c0-.91-.79-1.69-1.41-2.12l-.59-.59V5z"/>
+    <rect x="10" y="3" width="4" height="12" rx="2" />
+    <circle cx="12" cy="18" r="4" />
+    <rect x="11" y="6" width="2" height="9" rx="1" fill="white" opacity="0.6"/>
   </svg></div>
           <div>
             <p class="label">Temperature</p>
@@ -86,6 +88,47 @@
             <p class="label">47.9 %</p>
           </div>
         </div>
+
+        <div class="stat-card">
+          <div class="icon purple">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M7 3v18h2V7l8 14h2V3h-2v10L11 3H7z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="label">Nitrogen (N)</p>
+            <p class="label" id="npk-n">mg/kg</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="icon cyan">
+            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
+    <circle cx="12" cy="12" r="9" />
+    
+    <path d="M10 7v10h2v-4h2.2a3 3 0 0 0 0-6H10zm4.1 3a1.1 1.1 0 0 1 0 2.2H12V10h2.1z" fill="white"/>
+  </svg>
+          </div>
+          <div>
+            <p class="label">Phosphorus (P)</p>
+            <p class="label" id="npk-p">mg/kg</p>
+          </div>
+        </div>
+
+        <div class="stat-card">
+          <div class="icon green">
+            <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M6 3v18h2V13h2l4 8h2l-4.5-9L16 3h-2l-3 6H8V3H6z"/>
+            </svg>
+          </div>
+          <div>
+            <p class="label">Potassium (K)</p>
+            <p class="label" id="npk-k">mg/kg</p>
+          </div>
+        </div>
+
+
+
       </div>
 
       <header>
@@ -102,6 +145,21 @@
           <h3>Humidity Trends</h3>
           <canvas id="humiChart" height="140"></canvas>
         </div>
+
+        <div class="chart-card">
+          <h3>Nitrogen (N) Trends</h3>
+          <canvas id="npkNChart" height="140"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <h3>Phosphorus (P) Trends</h3>
+          <canvas id="npkPChart" height="140"></canvas>
+        </div>
+
+        <div class="chart-card">
+          <h3>Potassium(K) Trends</h3>
+          <canvas id="npkKChart" height="140"></canvas>
+        </div>
       </section>
 
       <header>
@@ -110,16 +168,28 @@
       <!-- System stats -->
       <section class="system-stats">
         <div>
-          <p class="muted">Average Temperature</p>
-          <p class="big" style="font-size:20px;">23.2°C</p>
+          <p class="label">Average Temperature</p>
+          <p class="label" style="font-size:20px;">23.2°C</p>
         </div>
         <div>
-          <p class="muted">Average Humidity</p>
-          <p class="big" style="font-size:20px;">50.6%</p>
+          <p class="label">Average Humidity</p>
+          <p class="label" style="font-size:20px;">50.6%</p>
         </div>
         <div>
-          <p class="muted">Last Update</p>
-          <p id="lastUpdate" class="big" style="font-size:20px;">22:26:24</p>
+          <p class="label">Average Nitrogen</p>
+          <p class="label" style="font-size:20px;">31 mg/kg</p>
+        </div>
+        <div>
+          <p class="label">Average Phosphorus</p>
+          <p class="label" style="font-size:20px;">22 mg/kg</p>
+        </div>
+        <div>
+          <p class="label">Average Potassium</p>
+          <p class="label" style="font-size:20px;">27 mg/kg</p>
+        </div>
+        <div>
+          <p class="label">Last Update</p>
+          <p id="lastUpdate" class="label" style="font-size:20px;">22:26:24</p>
         </div>
       </section>
 
@@ -157,6 +227,48 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
+  new Chart(document.getElementById("npkNChart"), {
+    type: "line",
+    data: {
+      labels: ["10:00", "10:05", "10:10", "10:15"],
+      datasets: [{
+        label: "Nitrogen (mg/kg)",
+        data: [30, 32, 31, 33],
+        borderWidth: 2,
+        borderColor: "#8000ff",
+        tension: 0.3
+      }]
+    }
+  });
+
+  new Chart(document.getElementById("npkPChart"), {
+    type: "line",
+    data: {
+      labels: ["10:00", "10:05", "10:10", "10:15"],
+      datasets: [{
+        label: "Phosphorus (mg/kg)",
+        data: [20, 22, 21, 23],
+        borderWidth: 2,
+        borderColor: "#00b300",
+        tension: 0.3
+      }]
+    }
+  });
+
+  new Chart(document.getElementById("npkKChart"), {
+    type: "line",
+    data: {
+      labels: ["10:00", "10:05", "10:10", "10:15"],
+      datasets: [{
+        label: "Potassium (mg/kg)",
+        data: [25, 27, 26, 28],
+        borderWidth: 2,
+        borderColor: "#ff6600",
+        tension: 0.3
+      }]
+    }
+  });
+
 });
 </script>
 
@@ -176,12 +288,12 @@ document.addEventListener("DOMContentLoaded", () => {
     <!-- DEVICE -->
     <div id="device" class="section" style="display:none;">
       <header>
-        <h1>Điều khiển Relay</h1>
-        <p>Quản lý và điều khiển các relay được kết nối.</p>
+        <h2>Device control</h2>
+        <p>Manage and control connected devices</p>
       </header>
 
       <div class="device-list" id="relayContainer"></div>
-
+        
       <button class="add-relay-btn" onclick="openAddRelayDialog()">
         <i>
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="35" height="35" fill="currentColor">
@@ -189,16 +301,134 @@ document.addEventListener("DOMContentLoaded", () => {
     <rect x="4" y="11" width="16" height="2" rx="1" fill="currentColor"/>
   </svg>
 </i>
+
       </button>
     </div>
 
     <!-- INFORMATION -->
     <div id="info" class="section" style="display:none;">
       <header>
-        <h1>Thông tin thiết bị</h1>
-        <p>Chi tiết hệ thống và firmware sẽ hiển thị tại đây.</p>
+        <h2>Device information</h2  >
+        <p>System and firmware details will be displayed here.</p>
       </header>
+
+      <div class="info-content">
+        <div class="info-row">
+          <span class="info-label">Device Name:</span>
+          <span class="info-value" id="device-name">Smart Plug 01</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Firmware Version:</span>
+          <span class="info-value" id="firmware-version">v1.2.5</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Last Update:</span>
+          <span class="info-value" id="last-update">2025-11-23 14:35</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">IP Address:</span>
+          <span class="info-value" id="ip-address">192.168.1.15</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">Status:</span>
+          <span class="info-value" id="status">Online</span>
+        </div>
+      </div>
     </div>
+
+    <!-- ALERTS -->
+    <div id="alerts" class="section section-alerts" style="display:none;">
+      <header class="info-header">
+        <h2>Alerts</h2>
+        <p class="info-subtitle">Device alert list - confirm or delete once processed</p>
+
+        <div class="alerts-controls">
+          <select id="alerts-filter" aria-label="Filter alerts">
+            <option value="all">All severities</option>
+            <option value="critical">Critical</option>
+            <option value="warning">Warning</option>
+            <option value="info">Info</option>
+          </select>
+          <button id="clear-alerts" class="small-btn">Clear all</button>
+        </div>
+      </header>
+
+      <ul class="alerts-list" id="alerts-list">
+        <!-- Items sẽ được render bởi JS -->
+      </ul>
+    </div>
+
+    <script>
+// Ví dụ dữ liệu mẫu
+const sampleAlerts = [
+  { id:1, severity:'critical', title:'Power surge detected', device:'Smart Plug 01', time:'2025-11-23 14:36', acknowledged:false },
+  { id:2, severity:'warning',  title:'High temperature (85°C)', device:'Thermostat 02', time:'2025-11-23 13:10', acknowledged:false },
+  { id:3, severity:'info',     title:'Firmware update available', device:'Smart Plug 01', time:'2025-11-22 09:05', acknowledged:true }
+];
+
+const alertsListEl = document.getElementById('alerts-list');
+const filterEl = document.getElementById('alerts-filter');
+const clearBtn = document.getElementById('clear-alerts');
+
+let alerts = sampleAlerts.slice(); // bạn có thể load từ server
+
+function renderAlerts() {
+  const filter = filterEl.value;
+  alertsListEl.innerHTML = '';
+  const visible = alerts.filter(a => filter==='all' ? true : a.severity===filter);
+  if(visible.length===0) {
+    alertsListEl.innerHTML = `<li class="alert-item"><div class="alert-body"><p class="alert-title" style="font-weight:500;color:#666">No alerts</p></div></li>`;
+    return;
+  }
+  visible.forEach(a => {
+    const li = document.createElement('li');
+    li.className = `alert-item ${a.severity} ${a.acknowledged ? 'acknowledged':''}`;
+    li.innerHTML = `
+      <div class="severity-badge">${a.severity.charAt(0).toUpperCase()}</div>
+      <div class="alert-body">
+        <p class="alert-title">${escapeHtml(a.title)}</p>
+        <div class="alert-meta">${escapeHtml(a.device)} • ${escapeHtml(a.time)}</div>
+      </div>
+      <div class="alert-actions">
+        <button class="action-btn ack" data-id="${a.id}">${a.acknowledged ? 'Acknowledged' : 'Acknowledge'}</button>
+        <button class="action-btn dismiss" data-id="${a.id}">Dismiss</button>
+      </div>
+    `;
+    alertsListEl.appendChild(li);
+  });
+}
+
+// handlers
+alertsListEl.addEventListener('click', (e) => {
+  const id = e.target.dataset?.id;
+  if(!id) return;
+  if(e.target.classList.contains('ack')) acknowledgeAlert(Number(id));
+  if(e.target.classList.contains('dismiss')) dismissAlert(Number(id));
+});
+
+filterEl.addEventListener('change', renderAlerts);
+clearBtn.addEventListener('click', () => {
+  if(!confirm('Clear all alerts?')) return;
+  alerts = [];
+  renderAlerts();
+});
+
+function acknowledgeAlert(id) {
+  const a = alerts.find(x=>x.id===id);
+  if(a) { a.acknowledged = true; renderAlerts(); /* gọi API nếu cần */ }
+}
+function dismissAlert(id) {
+  alerts = alerts.filter(x=>x.id!==id);
+  renderAlerts();
+}
+
+// simple escape
+function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+
+// lần đầu render
+renderAlerts();
+</script>
+
 
     <!-- SETTINGS -->
     <div id="settings" class="section settings-section" style="display:none;">
@@ -268,17 +498,23 @@ document.addEventListener("DOMContentLoaded", () => {
   <!-- DIALOG ADD RELAY -->
   <div id="addRelayDialog" class="dialog-overlay" style="display:none;">
     <div class="dialog fade-in">
-      <h3><i class="fa-solid fa-plug"></i> Thêm relay mới</h3>
-      <p>Nhập tên relay và chân GPIO</p>
+      <h3><i>
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+    <rect x="4" y="8" width="16" height="12" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    <rect x="8" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
+    <rect x="14" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
+  </svg>
+</i> Add new device</h3>
+      <p>Enter device name and GPIO pin</p>
       <div class="input-field">
-        <input type="text" id="relayName" placeholder="Tên relay">
+        <input type="text" id="relayName" placeholder="Device name">
       </div>
       <div class="input-field">
-        <input type="number" id="relayGPIO" placeholder="Chân GPIO">
+        <input type="number" id="relayGPIO" placeholder="GPIO pin">
       </div>
       <div class="dialog-buttons">
-        <button class="confirm" onclick="saveRelay()">Lưu</button>
-        <button class="cancel" onclick="closeAddRelayDialog()">Hủy</button>
+        <button class="confirm" onclick="saveRelay()">Add</button>
+        <button class="cancel" onclick="closeAddRelayDialog()">Cancel</button>
       </div>
     </div>
   </div>
@@ -286,11 +522,11 @@ document.addEventListener("DOMContentLoaded", () => {
   <!-- DIALOG DELETE -->
   <div id="confirmDeleteDialog" class="dialog-overlay" style="display:none;">
     <div class="dialog warning fade-in">
-      <h3>⚠️ Xác nhận xóa</h3>
-      <p>Bạn có chắc chắn muốn xóa relay này không?</p>
+      <h3>Confirm Delete</h3>
+      <p>Are you sure you want to delete this device?</p>
       <div class="dialog-buttons">
-        <button class="danger" onclick="confirmDelete()">Xóa</button>
-        <button class="cancel" onclick="closeConfirmDelete()">Hủy</button>
+        <button class="danger" onclick="confirmDelete()">Delete</button>
+        <button class="cancel" onclick="closeConfirmDelete()">Cancel</button>
       </div>
     </div>
   </div>
