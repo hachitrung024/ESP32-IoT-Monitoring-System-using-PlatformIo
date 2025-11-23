@@ -17,7 +17,6 @@
 </head>
 
 <body>
-
   <!-- Sildebar -->
   <div class="sidebar">
     <div class="logo-container">
@@ -26,30 +25,43 @@
         alt="Logo">
     </div>
 
+    <!-- Dashboard slidebar -->
     <div class="nav-item active" onclick="showSection('dashboard', event)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-    <path d="M3 13h8v8H3v-8zm10-10h8v10h-8V3zm-10 0h8v8H3V3zm10 12h8v6h-8v-6z"/>
-  </svg></i> <span>Dashboard</span></div>
+      <path d="M3 13h8v8H3v-8zm10-10h8v10h-8V3zm-10 0h8v8H3V3zm10 12h8v6h-8v-6z"/>
+      </svg></i> <span>Dashboard</span>
+    </div>
+
+    <!-- Device slidebar -->
     <div class="nav-item" onclick="showSection('device', event)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-    <path d="M4 6h16v12H4V6zm0-2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4z"/>
-  </svg></i> <span>Device</span></div>
+      <path d="M4 6h16v12H4V6zm0-2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2H4z"/>
+      </svg></i> <span>Device</span>
+    </div>
+
+    <!-- Information slidebar -->
     <div class="nav-item" onclick="showSection('info', event)"> <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-    <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.75 15h-1.5v-6h1.5v6zm0-8h-1.5V7h1.5v2z"/>
-  </svg> <span>Imformation</span></div>
-  <div class="nav-item" onclick="showSection('alerts', event)">
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-      <path d="M12 2a7 7 0 0 0-7 7v5H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2h-1V9a7 7 0 0 0-7-7zm0 20a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2z"/>
-    </svg>
-    <span>Alerts</span>
-  </div>
+      <path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20zm.75 15h-1.5v-6h1.5v6zm0-8h-1.5V7h1.5v2z"/>
+      </svg> <span>Imformation</span>
+    </div>
+
+    <!-- Alerts slidebar -->
+    <div class="nav-item" onclick="showSection('alerts', event)">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
+        <path d="M12 2a7 7 0 0 0-7 7v5H4a1 1 0 0 0 0 2h16a1 1 0 0 0 0-2h-1V9a7 7 0 0 0-7-7zm0 20a2 2 0 0 0 2-2h-4a2 2 0 0 0 2 2z"/>
+      </svg>
+      <span>Alerts</span>
+    </div>
+
+    <!-- Settings slidebar -->
     <div class="nav-item" onclick="showSection('settings', event)"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-    <path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5zm7.43-2.13l1.77-1.3-2-3.46-2.1.78a6.99 6.99 0 0 0-1.48-0.85l-.32-2.26h-4l-.32 2.26a6.99 6.99 0 0 0-1.48.85l-2.1-.78-2 3.46 1.77 1.3a6.92 6.92 0 0 0 0 1.26l-1.77 1.3 2 3.46 2.1-.78a6.99 6.99 0 0 0 1.48.85l.32 2.26h4l.32-2.26a6.99 6.99 0 0 0 1.48-.85l2.1.78 2-3.46-1.77-1.3a6.92 6.92 0 0 0 0-1.26z"/>
-  </svg> <span>Settings</span></div>
+      <path d="M12 15.5A3.5 3.5 0 1 0 12 8a3.5 3.5 0 0 0 0 7.5zm7.43-2.13l1.77-1.3-2-3.46-2.1.78a6.99 6.99 0 0 0-1.48-0.85l-.32-2.26h-4l-.32 2.26a6.99 6.99 0 0 0-1.48.85l-2.1-.78-2 3.46 1.77 1.3a6.92 6.92 0 0 0 0 1.26l-1.77 1.3 2 3.46 2.1-.78a6.99 6.99 0 0 0 1.48.85l.32 2.26h4l.32-2.26a6.99 6.99 0 0 0 1.48-.85l2.1.78 2-3.46-1.77-1.3a6.92 6.92 0 0 0 0-1.26z"/>
+      </svg> <span>Settings</span>
+    </div>
   </div>
 
   <!-- Main Content -->
   <div class="main-content">
 
-    <!-- DASHBOARD -->
+    <!-- DASHBOARD Page -->
     <div id="dashboard" class="section fade-in">
       <header>
         <h2>Dashboard Overview</h2>
@@ -59,8 +71,9 @@
       <div class="top-stats">
         <div class="stat-card">
           <div class="icon blue"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-    <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-  </svg></div>
+              <path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5s-3 1.34-3 3 1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+              </svg>
+          </div>
           <div>
             <p class="label">Connected Clients</p>
             <p class="label">23 devices</p>
@@ -69,26 +82,30 @@
 
         <div class="stat-card">
           <div class="icon orange"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-    <rect x="10" y="3" width="4" height="12" rx="2" />
-    <circle cx="12" cy="18" r="4" />
-    <rect x="11" y="6" width="2" height="9" rx="1" fill="white" opacity="0.6"/>
-  </svg></div>
+            <rect x="10" y="3" width="4" height="12" rx="2" />
+            <circle cx="12" cy="18" r="4" />
+            <rect x="11" y="6" width="2" height="9" rx="1" fill="white" opacity="0.6"/>
+            </svg>
+          </div>
           <div>
             <p class="label">Temperature</p>
             <p class="label">27.6 °C</p>
           </div>
         </div>
 
+        <!-- Humidity -->
         <div class="stat-card">
           <div class="icon cyan"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-    <path d="M12 2.69l-.61.57C7.54 6.54 5 9.36 5 12.5 5 16.09 8.41 19 12 19s7-2.91 7-6.5c0-3.14-2.54-5.96-6.39-9.24L12 2.69zM12 17c-2.76 0-5-2.24-5-5 0-1.95 2.5-5.01 5-7.94 2.5 2.93 5 5.99 5 7.94 0 2.76-2.24 5-5 5z"/>
-  </svg></div>
+            <path d="M12 2.69l-.61.57C7.54 6.54 5 9.36 5 12.5 5 16.09 8.41 19 12 19s7-2.91 7-6.5c0-3.14-2.54-5.96-6.39-9.24L12 2.69zM12 17c-2.76 0-5-2.24-5-5 0-1.95 2.5-5.01 5-7.94 2.5 2.93 5 5.99 5 7.94 0 2.76-2.24 5-5 5z"/>
+            </svg>
+          </div>
           <div>
             <p class="label">Humidity</p>
             <p class="label">47.9 %</p>
           </div>
         </div>
 
+        <!-- Nitrogen (N) -->
         <div class="stat-card">
           <div class="icon purple">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
@@ -101,13 +118,13 @@
           </div>
         </div>
 
+        <!-- Phosphorus (P) -->
         <div class="stat-card">
           <div class="icon cyan">
             <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30" viewBox="0 0 24 24" fill="currentColor">
-    <circle cx="12" cy="12" r="9" />
-    
-    <path d="M10 7v10h2v-4h2.2a3 3 0 0 0 0-6H10zm4.1 3a1.1 1.1 0 0 1 0 2.2H12V10h2.1z" fill="white"/>
-  </svg>
+            <circle cx="12" cy="12" r="9" />
+            <path d="M10 7v10h2v-4h2.2a3 3 0 0 0 0-6H10zm4.1 3a1.1 1.1 0 0 1 0 2.2H12V10h2.1z" fill="white"/>
+            </svg>
           </div>
           <div>
             <p class="label">Phosphorus (P)</p>
@@ -115,6 +132,7 @@
           </div>
         </div>
 
+        <!-- Potassium (K) -->
         <div class="stat-card">
           <div class="icon green">
             <svg xmlns="http://www.w3.org/2000/svg" width="22" height="22" fill="currentColor" viewBox="0 0 24 24">
@@ -126,11 +144,9 @@
             <p class="label" id="npk-k">mg/kg</p>
           </div>
         </div>
-
-
-
       </div>
 
+      <!-- Analysis -->
       <header>
         <h4>Analysis</h4>
       </header>
@@ -162,10 +178,11 @@
         </div>
       </section>
 
+      <!-- System stats -->
       <header>
         <h4>System Statistics</h4>
       </header>
-      <!-- System stats -->
+
       <section class="system-stats">
         <div>
           <p class="label">Average Temperature</p>
@@ -193,7 +210,7 @@
         </div>
       </section>
 
-      <!-- Chart.js -->
+<!-- Chart.js -->
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
@@ -285,7 +302,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div> -->
     </div>
 
-    <!-- DEVICE -->
+    <!-- DEVICE Page -->
     <div id="device" class="section" style="display:none;">
       <header>
         <h2>Device control</h2>
@@ -296,16 +313,15 @@ document.addEventListener("DOMContentLoaded", () => {
         
       <button class="add-relay-btn" onclick="openAddRelayDialog()">
         <i>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="35" height="35" fill="currentColor">
-    <rect x="11" y="4" width="2" height="16" rx="1" fill="currentColor"/>
-    <rect x="4" y="11" width="16" height="2" rx="1" fill="currentColor"/>
-  </svg>
-</i>
-
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="35" height="35" fill="currentColor">
+            <rect x="11" y="4" width="2" height="16" rx="1" fill="currentColor"/>
+            <rect x="4" y="11" width="16" height="2" rx="1" fill="currentColor"/>
+          </svg>
+        </i>
       </button>
     </div>
 
-    <!-- INFORMATION -->
+    <!-- INFORMATION Page -->
     <div id="info" class="section" style="display:none;">
       <header>
         <h2>Device information</h2  >
@@ -315,7 +331,7 @@ document.addEventListener("DOMContentLoaded", () => {
       <div class="info-content">
         <div class="info-row">
           <span class="info-label">Device Name:</span>
-          <span class="info-value" id="device-name">Smart Plug 01</span>
+          <span class="info-value" id="device-name">Yolo Uno Board</span>
         </div>
         <div class="info-row">
           <span class="info-label">Firmware Version:</span>
@@ -327,7 +343,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </div>
         <div class="info-row">
           <span class="info-label">IP Address:</span>
-          <span class="info-value" id="ip-address">192.168.1.15</span>
+          <span class="info-value" id="ip-address">192.168.4.1</span>
         </div>
         <div class="info-row">
           <span class="info-label">Status:</span>
@@ -336,7 +352,7 @@ document.addEventListener("DOMContentLoaded", () => {
       </div>
     </div>
 
-    <!-- ALERTS -->
+    <!-- ALERTS Page -->
     <div id="alerts" class="section section-alerts" style="display:none;">
       <header class="info-header">
         <h2>Alerts</h2>
@@ -354,12 +370,12 @@ document.addEventListener("DOMContentLoaded", () => {
       </header>
 
       <ul class="alerts-list" id="alerts-list">
-        <!-- Items sẽ được render bởi JS -->
       </ul>
     </div>
 
-    <script>
-// Ví dụ dữ liệu mẫu
+<!-- Script alerts -->
+<script>
+
 const sampleAlerts = [
   { id:1, severity:'critical', title:'Power surge detected', device:'Smart Plug 01', time:'2025-11-23 14:36', acknowledged:false },
   { id:2, severity:'warning',  title:'High temperature (85°C)', device:'Thermostat 02', time:'2025-11-23 13:10', acknowledged:false },
@@ -370,7 +386,7 @@ const alertsListEl = document.getElementById('alerts-list');
 const filterEl = document.getElementById('alerts-filter');
 const clearBtn = document.getElementById('clear-alerts');
 
-let alerts = sampleAlerts.slice(); // bạn có thể load từ server
+let alerts = sampleAlerts.slice();
 
 function renderAlerts() {
   const filter = filterEl.value;
@@ -415,78 +431,82 @@ clearBtn.addEventListener('click', () => {
 
 function acknowledgeAlert(id) {
   const a = alerts.find(x=>x.id===id);
-  if(a) { a.acknowledged = true; renderAlerts(); /* gọi API nếu cần */ }
+  if(a) { a.acknowledged = true; renderAlerts(); /* call API if needed */ }
 }
 function dismissAlert(id) {
   alerts = alerts.filter(x=>x.id!==id);
   renderAlerts();
 }
 
-// simple escape
+// Simple escape
 function escapeHtml(s){ return String(s).replace(/[&<>"]/g, c=> ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
 
-// lần đầu render
+// First time render 
 renderAlerts();
 </script>
 
-
-    <!-- SETTINGS -->
+    <!-- SETTINGS Page -->
     <div id="settings" class="section settings-section" style="display:none;">
       <div class="settings-card">
         <h2><i class="fa-solid"></i> Device configuration</h2>
         <p>Enter your Wi-Fi and Core IoT connection details below.</p>
 
+        <!-- Settings Form -->
         <form id="settingsForm">
+          <!-- ssid -->
           <div class="input-group">
             <i>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M12 18c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm4.07-3.75a.996.996 0 0 0 1.41-1.41c-2.73-2.73-7.17-2.73-9.9 0a.996.996 0 1 0 1.41 1.41c2.07-2.07 5.07-2.07 7.08 0zm2.83-2.83a.996.996 0 0 0 1.41-1.41c-4.37-4.37-11.47-4.37-15.84 0a.996.996 0 0 0 1.41 1.41c3.56-3.56 10.32-3.56 14.02 0z"/>
-    </svg>
-  </i>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M12 18c.55 0 1-.45 1-1s-.45-1-1-1-1 .45-1 1 .45 1 1 1zm4.07-3.75a.996.996 0 0 0 1.41-1.41c-2.73-2.73-7.17-2.73-9.9 0a.996.996 0 1 0 1.41 1.41c2.07-2.07 5.07-2.07 7.08 0zm2.83-2.83a.996.996 0 0 0 1.41-1.41c-4.37-4.37-11.47-4.37-15.84 0a.996.996 0 0 0 1.41 1.41c3.56-3.56 10.32-3.56 14.02 0z"/>
+              </svg>
+            </i>
             <input type="text" id="ssid" placeholder="Wi-Fi Name (SSID)" required>
           </div>
 
+          <!-- password -->
           <div class="input-group">
             <i>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-7h-1V7a5 5 0 0 0-10 0v3H6c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-9c0-1.1-.9-2-2-2zm-8-3a3 3 0 0 1 6 0v3h-6V7zm8 14H6v-9h12v9z"/>
-    </svg>
-  </i>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M12 17a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm6-7h-1V7a5 5 0 0 0-10 0v3H6c-1.1 0-2 .9-2 2v9c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2v-9c0-1.1-.9-2-2-2zm-8-3a3 3 0 0 1 6 0v3h-6V7zm8 14H6v-9h12v9z"/>
+              </svg>
+            </i>
             <input type="password" id="password" placeholder="Wi-Fi Password" required>
           </div>
 
+          <!-- token -->
           <div class="input-group">
             <i>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-    <path d="M21.7 11.3l-1-1c-.2-.2-.5-.2-.7 0l-2.1 2.1-1.4-1.4 2.1-2.1c.2-.2.2-.5 0-.7l-1-1c-.2-.2-.5-.2-.7 0l-9 9c-.2.2-.2.5 0 .7l1 1c.2.2.5.2.7 0l1.4-1.4 2.1 2.1c.2.2.5.2.7 0l7-7c.2-.2.2-.5 0-.7z"/>
-    <circle cx="7" cy="11" r="3"/>
-  </svg>
-</i>
-
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M21.7 11.3l-1-1c-.2-.2-.5-.2-.7 0l-2.1 2.1-1.4-1.4 2.1-2.1c.2-.2.2-.5 0-.7l-1-1c-.2-.2-.5-.2-.7 0l-9 9c-.2.2-.2.5 0 .7l1 1c.2.2.5.2.7 0l1.4-1.4 2.1 2.1c.2.2.5.2.7 0l7-7c.2-.2.2-.5 0-.7z"/>
+                <circle cx="7" cy="11" r="3"/>
+              </svg>
+            </i>
             <input type="text" id="token" placeholder="Core IoT Token" required>
           </div>
 
+          <!-- server -->
           <div class="input-group">
             <i>
-    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-      <path d="M4 5h16v2H4V5zm0 4h16v2H4V9zm0 4h16v2H4v-2zm0 4h16v2H4v-2z"/>
-    </svg>
-  </i>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <path d="M4 5h16v2H4V5zm0 4h16v2H4V9zm0 4h16v2H4v-2zm0 4h16v2H4v-2z"/>
+              </svg>
+            </i>
             <input type="text" id="server" placeholder="Core IoT Server" required>
           </div>
 
+          <!-- port -->
           <div class="input-group">
             <i>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-    <rect x="4" y="8" width="16" height="12" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
-    <rect x="8" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
-    <rect x="14" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
-  </svg>
-</i>
-
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+                <rect x="4" y="8" width="16" height="12" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+                <rect x="8" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
+                <rect x="14" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
+              </svg>
+            </i>
             <input type="number" id="port" placeholder="Core IoT Port" required>
           </div>
 
+          <!-- Button save -->
           <button type="submit" class="btn-save">
             <i class="fa-solid"></i> Save Configuration
           </button>
@@ -499,12 +519,13 @@ renderAlerts();
   <div id="addRelayDialog" class="dialog-overlay" style="display:none;">
     <div class="dialog fade-in">
       <h3><i>
-  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
-    <rect x="4" y="8" width="16" height="12" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
-    <rect x="8" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
-    <rect x="14" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
-  </svg>
-</i> Add new device</h3>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="18" height="18" fill="currentColor">
+            <rect x="4" y="8" width="16" height="12" rx="2" ry="2" fill="none" stroke="currentColor" stroke-width="1.5"/>
+            <rect x="8" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
+            <rect x="14" y="3" width="2" height="7" rx="0.5" ry="0.5" fill="currentColor"/>
+          </svg>
+        </i> Add new device
+      </h3>
       <p>Enter device name and GPIO pin</p>
       <div class="input-field">
         <input type="text" id="relayName" placeholder="Device name">

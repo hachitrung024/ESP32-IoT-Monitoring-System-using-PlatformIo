@@ -28,20 +28,20 @@ function initWebSocket() {
 function Send_Data(data) {
     if (websocket && websocket.readyState === WebSocket.OPEN) {
         websocket.send(data);
-        console.log("📤 Gửi:", data);
+        console.log("Send:", data);
     } else {
-        console.warn("⚠️ WebSocket chưa sẵn sàng!");
-        alert("⚠️ WebSocket chưa kết nối!");
+        console.warn("WebSocket is not ready yet.!");
+        alert("WebSocket is not connected!");
     }
 }
 
 function onMessage(event) {
-    console.log("📩 Nhận:", event.data);
+    console.log("Received:", event.data);
     try {
         var data = JSON.parse(event.data);
-        // Có thể thêm xử lý riêng nếu cần (ví dụ cập nhật trạng thái)
+        // You can add specific handling here if needed (e.g., update status)
     } catch (e) {
-        console.warn("Không phải JSON hợp lệ:", event.data);
+        console.warn("Invalid JSON:", event.data);
     }
 }
 
@@ -174,7 +174,7 @@ function confirmDelete() {
 }
 
 
-// ==================== SETTINGS FORM (BỔ SUNG) ====================
+// ==================== SETTINGS FORM ====================
 document.getElementById("settingsForm").addEventListener("submit", function (e) {
     e.preventDefault();
 
@@ -196,5 +196,5 @@ document.getElementById("settingsForm").addEventListener("submit", function (e) 
     });
 
     Send_Data(settingsJSON);
-    alert("✅ Cấu hình đã được gửi đến thiết bị!");
+    alert("Configuration has been sent to the device!");
 });
