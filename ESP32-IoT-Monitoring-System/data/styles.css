@@ -85,6 +85,13 @@ body {
   color: #777;
 }
 
+.stat-card .value {
+  margin: 0;
+  font-size: 14px;
+  color: #333;     
+  font-weight: bold;
+}
+
 .stat-card .label:first-of-type {
   margin-bottom: 6px;
 }
@@ -172,6 +179,12 @@ body {
   font-size: 22px;
   margin: 6px 0 0;
   font-weight: 700;
+}
+
+.system-stats .value {
+  margin: 0;
+  font-size: 15px;
+  color: #333;     
 }
 
 .gauges-container {
