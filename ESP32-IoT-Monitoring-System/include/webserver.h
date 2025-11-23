@@ -11,6 +11,8 @@
 extern AsyncWebServer server;
 extern AsyncWebSocket ws;
 
+extern bool webserver_isrunning;
+
 void stopWebserver();
 void reconnectWebserver();
 void sendDataWebserver(String data);

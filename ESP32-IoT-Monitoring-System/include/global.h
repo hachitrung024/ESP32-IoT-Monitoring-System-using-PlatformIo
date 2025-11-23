@@ -7,7 +7,9 @@
 #include "freertos/semphr.h"
 
 extern float glob_temperature;  
-extern float glob_humidity;     
+extern float glob_humidity;  
+
+extern uint32_t send_data_webserver_interval;
 
 extern String CORE_IOT_TOKEN;
 extern String CORE_IOT_SERVER;
@@ -24,6 +26,8 @@ extern bool is_wifi_connected;
 
 // Semaphore Wait for Wifi connect
 extern SemaphoreHandle_t xBinarySemaphoreInternet;
+// Semaphore Wait for Webserver running
+extern SemaphoreHandle_t xBinarySemaphoreWebserver;
 // Mutex protect Global Sensor data
 extern SemaphoreHandle_t xGlobMutex;
 // Mutex protect is_ap_mode

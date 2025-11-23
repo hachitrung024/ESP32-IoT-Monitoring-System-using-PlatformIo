@@ -2,6 +2,8 @@
 float glob_temperature = 0;
 float glob_humidity = 0;
 
+uint32_t send_data_webserver_interval = 3000;
+
 String CORE_IOT_TOKEN;
 String CORE_IOT_SERVER;
 String CORE_IOT_PORT;
@@ -16,6 +18,7 @@ bool is_connecting = false;
 bool is_wifi_connected = false;
 
 SemaphoreHandle_t xBinarySemaphoreInternet = xSemaphoreCreateBinary();
+SemaphoreHandle_t xBinarySemaphoreWebserver = xSemaphoreCreateBinary();
 SemaphoreHandle_t xGlobMutex = xSemaphoreCreateMutex();
 SemaphoreHandle_t xApModeMutex = xSemaphoreCreateMutex();
 SemaphoreHandle_t xConnectingMutex = xSemaphoreCreateMutex();

@@ -16,14 +16,25 @@ void dht_task (void * pvParameter){
     delay(2000);
     // Serial.println("Type,\tStatus,\tHumidity (%),\tTemperature (C)");
 
+    bool ap_mode = true;
     for(;;){
-        EventBits_t uxBits = xEventGroupWaitBits(
+    
+        if (xSemaphoreTake(xApModeMutex, pdMS_TO_TICKS(50)) == pdTRUE) {
+            ap_mode = is_ap_mode;
+            xSemaphoreGive(xApModeMutex);
+        }
+
+        if (!ap_mode)
+        {
+            EventBits_t uxBits = xEventGroupWaitBits(
             xSensorEventGroup,
             SENSOR_TRIGGER_READ_ALL_BIT,
             pdTRUE,
             pdFALSE,
             portMAX_DELAY
-        );
+            );
+        }
+    
         int status = dht.read();
         switch (status)
         {
@@ -61,16 +72,23 @@ void dht_task (void * pvParameter){
             temperature = -1.0f;
             humidity = -1.0f;
         }
-        // Serial.printf("[DHT%d] Temp: %.2f°C | Humi:%.2f%%\n", DHT_TYPE, temperature, humidity);
+        
         if (xSemaphoreTake(xGlobMutex, portMAX_DELAY) == pdTRUE) {
             glob_temperature = temperature;
             glob_humidity = humidity;
             xSemaphoreGive(xGlobMutex);
         }
-        snprintf(json, sizeof(json), "{\"DHT-Temp\":%.2f,\"DHT-Humi\":%.2f}", temperature, humidity);
-        if (xQueueSend(xSensorDataQueue, &json, 0) != pdPASS) {
-            Serial.println("Error: [DHT] Failed to send telemetry data to queue");
-        delay(2000);
+        if (!ap_mode)
+        {
+            snprintf(json, sizeof(json), "{\"DHT-Temp\":%.2f,\"DHT-Humi\":%.2f}", temperature, humidity);
+            if (xQueueSend(xSensorDataQueue, json, 0) != pdPASS) {
+                Serial.println("Error: [DHT] Failed to send telemetry data to queue");
+                vTaskDelay(2000 / portTICK_PERIOD_MS);
+            }
+        }
+        else{
+            Serial.printf("[DHT] Temp: %.2f°C | Humi:%.2f%%\n", temperature, humidity);
+            vTaskDelay(2000 / portTICK_PERIOD_MS);
         }
     }
 }

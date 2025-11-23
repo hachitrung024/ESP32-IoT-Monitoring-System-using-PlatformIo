@@ -48,6 +48,8 @@ void connnectWSV()
     server.addHandler(&ws);
     server.on("/", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(LittleFS, "/index.html", "text/html"); });
+    server.on("/chart.umd.min.js", HTTP_GET, [](AsyncWebServerRequest *request) 
+              { request->send(LittleFS, "/chart.umd.min.js", "application/javascript"); });
     server.on("/script.js", HTTP_GET, [](AsyncWebServerRequest *request)
               { request->send(LittleFS, "/script.js", "application/javascript"); });
     server.on("/styles.css", HTTP_GET, [](AsyncWebServerRequest *request)
@@ -55,6 +57,7 @@ void connnectWSV()
     server.begin();
     // ElegantOTA.begin(&server);
     webserver_isrunning = true;
+    xSemaphoreGive(xBinarySemaphoreWebserver);
 }
 
 void stopWebserver()
@@ -62,10 +65,12 @@ void stopWebserver()
     ws.closeAll();
     server.end();
     webserver_isrunning = false;
+    Serial.printf("[WEBSERVER STOP]: Webserver is running: %d\n", webserver_isrunning);
 }
 
 void reconnectWebserver()
 {
+    // Serial.printf("[WEBSERVER]: Webserver is running: %d\n", webserver_isrunning);
     if (!webserver_isrunning)
     {
         connnectWSV();

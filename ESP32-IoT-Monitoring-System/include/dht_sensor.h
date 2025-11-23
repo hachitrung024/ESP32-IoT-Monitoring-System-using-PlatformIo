@@ -3,6 +3,7 @@
 
 #include "DHT20.h"
 #include "global.h"
+#include "webserver.h"
 
 #define DHT_PIN 8
 
