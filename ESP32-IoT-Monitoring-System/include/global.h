@@ -10,6 +10,7 @@ extern float glob_temperature;
 extern float glob_humidity;  
 
 extern uint32_t send_data_webserver_interval;
+extern uint32_t telemetrySendInterval;
 
 extern String CORE_IOT_TOKEN;
 extern String CORE_IOT_SERVER;

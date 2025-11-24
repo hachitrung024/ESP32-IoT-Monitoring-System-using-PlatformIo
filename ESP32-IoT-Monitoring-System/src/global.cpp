@@ -3,6 +3,7 @@ float glob_temperature = 0;
 float glob_humidity = 0;
 
 uint32_t send_data_webserver_interval = 3000;
+uint32_t telemetrySendInterval = 10000U;
 
 String CORE_IOT_TOKEN;
 String CORE_IOT_SERVER;
@@ -36,27 +37,42 @@ SemaphoreHandle_t xSensorDataMutex = xSemaphoreCreateMutex();
 EventGroupHandle_t xSensorEventGroup = xEventGroupCreate();
 QueueHandle_t xSensorDataQueue = xQueueCreate(10, sizeof(char[64]));
 
-String getSensorDataJsonString () {
-    if(xSemaphoreTake(xSensorDataMutex, pdMS_TO_TICKS(1000)) != pdTRUE) {
-        return "{}"; // Return empty JSON on failure to acquire mutex
+char globalSensorJson[256]; 
+String getSensorDataJsonString() {
+    if (xSemaphoreTake(xSensorDataMutex, pdMS_TO_TICKS(1000)) != pdTRUE) {
+        return "{}"; 
     }
+
     xQueueReset(xSensorDataQueue);
-    // Trigger all sensor tasks to read data
     xEventGroupSetBits(xSensorEventGroup, SENSOR_TRIGGER_READ_ALL_BIT);
-    String json = "{";
+
+    char newJson[256];
+    strcpy(newJson, "{");
+
     char buffer[64];
     bool first = true;
-    for (int id = 0; id < SENSOR_COUNT; id++) {
-        // Wait for each sensor task to signal completion, with timeout 2000 ms
-        if (xQueueReceive(xSensorDataQueue, &buffer, pdMS_TO_TICKS(2000)) == pdPASS) {
+
+    for (int i = 0; i < SENSOR_COUNT; i++) {
+
+        if (xQueueReceive(xSensorDataQueue, buffer, pdMS_TO_TICKS(200)) == pdPASS) {
+
+            String s = String(buffer);
+            s = s.substring(1, s.length() - 1);
+
             if (!first) {
-                json += ",";
+                strcat(newJson, ",");
             }
-            json += String(buffer).substring(1, String(buffer).length() - 1); // Remove the curly braces
+
+            strcat(newJson, s.c_str());
             first = false;
         }
     }
-    json += "}";
+
+    strcat(newJson, "}");
+    strcpy(globalSensorJson, newJson);
+
     xSemaphoreGive(xSensorDataMutex);
-    return json;
+    // Serial.println("Sensor Data: " + String(globalSensorJson));
+
+    return String(globalSensorJson);
 }

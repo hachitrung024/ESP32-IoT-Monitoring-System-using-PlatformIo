@@ -2,22 +2,23 @@
 
 // Function to send sensor data as JSON via WebSocket
 void sendSensorData() {
-    float temperature = 0.0f;
-    float humidity = 0.0f;
+    // float temperature = 0.0f;
+    // float humidity = 0.0f;
 
-    if (xSemaphoreTake(xGlobMutex, portMAX_DELAY) == pdTRUE) {
-        temperature = glob_temperature;
-        humidity = glob_humidity;
-        xSemaphoreGive(xGlobMutex);
-    }
+    // if (xSemaphoreTake(xGlobMutex, portMAX_DELAY) == pdTRUE) {
+    //     temperature = glob_temperature;
+    //     humidity = glob_humidity;
+    //     xSemaphoreGive(xGlobMutex);
+    // }
 
-    String jsonData = "{";
-    jsonData += "\"temperature\":" + String(temperature, 1) + ",";
-    jsonData += "\"humidity\":" + String(humidity, 1);
-    jsonData += "}";
+    // String jsonData = "{";
+    // jsonData += "\"temperature\":" + String(temperature, 1) + ",";
+    // jsonData += "\"humidity\":" + String(humidity, 1);
+    // jsonData += "}";
 
     // Send to all WebSocket clients
-    sendDataWebserver(jsonData);
+    // sendDataWebserver(jsonData);
+    sendDataWebserver(getSensorDataJsonString());
 }
 
 void send_data_webserver_task(void *pvParameters)

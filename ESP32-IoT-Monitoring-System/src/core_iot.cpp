@@ -1,11 +1,11 @@
 #include "core_iot.h"
-constexpr int16_t telemetrySendInterval = 10000U;
 uint32_t previousDataSend = 0;
 
 //Shared Attributes Configuration
-constexpr uint8_t MAX_ATTRIBUTES = 1;
+constexpr uint8_t MAX_ATTRIBUTES = 2;
 constexpr std::array<const char*, MAX_ATTRIBUTES> SHARED_ATTRIBUTES = {
-  "POWER"
+  "ledState",
+  "dataInterval"
 };
 void requestTimedOut() {
   Serial.printf("Error: Attribute request timed out did not receive a response in (%llu) microseconds. Ensure client is connected to the MQTT broker and that the keys actually exist on the target device\n", REQUEST_TIMEOUT_MICROSECONDS);
@@ -90,12 +90,29 @@ void handlePOWER2(const JsonVariantConst &data, JsonDocument &response){
   }
 }
 void processSharedAttributeUpdate(const JsonObjectConst &data) {
-  //Info
-  const size_t jsonSize = Helper::Measure_Json(data);
-  char buffer[jsonSize];
-  serializeJson(data, buffer, jsonSize);
-  Serial.println(buffer);
+    if (data.containsKey("ledState")) {
+        bool ledState = data["ledState"].as<bool>();
+        Serial.print("ledState = ");
+        Serial.println(ledState ? "true" : "false");
+
+        RelayCommand_t cmd = {.target_id = RELAY_0, .state = ledState};
+        if(xQueueSend(xRelayControlQueue, &cmd, 0) != pdPASS) {
+            Serial.println("Error: Relay control queue is full!");
+        }
+    }
+
+    if (data.containsKey("dataInterval")) {
+        int dataInterval = data["dataInterval"].as<int>();
+        if (dataInterval < 2) {
+            dataInterval = 2; // Minimum interval of 2 seconds
+        }
+        Serial.print("dataInterval = ");
+        Serial.println(dataInterval);
+
+        telemetrySendInterval = dataInterval * 1000;
+    }
 }
+
 
 void processSharedAttributeRequest(const JsonObjectConst &data) {
   //Info
@@ -148,7 +165,7 @@ bool subscribeToAPIs(){
   }
   if (!requestedShared) {
     Serial.println("Info: Requesting shared attributes...");
-    const Attribute_Request_Callback<MAX_ATTRIBUTES> sharedCallback(&processSharedAttributeRequest, REQUEST_TIMEOUT_MICROSECONDS, &requestTimedOut, SHARED_ATTRIBUTES);
+    const Attribute_Request_Callback<MAX_ATTRIBUTES> sharedCallback(&processSharedAttributeUpdate, REQUEST_TIMEOUT_MICROSECONDS, &requestTimedOut, SHARED_ATTRIBUTES);
     requestedShared = attr_request.Shared_Attributes_Request(sharedCallback);
     if (!requestedShared) {
       Serial.println("Error: Failed");
@@ -161,7 +178,7 @@ bool subscribeToAPIs(){
 void coreiot_task(void * pvParameters){
   bool wifi_connected = false;
   bool apis_subscribed = false;
-  String telemetry;
+  String telemetry, attribute;
   
   if (xSemaphoreTake(xBinarySemaphoreInternet, portMAX_DELAY) == pdTRUE) {
     Serial.println("Info: Connected to Wifi");
@@ -182,9 +199,9 @@ void coreiot_task(void * pvParameters){
     if (!tb.connected()) {
       // Reconnect to the ThingsBoard server,
       // if a connection was disrupted or has not yet been established
-      Serial.printf("Info: Connecting to: (%s) with token (%s)\n", THINGSBOARD_SERVER, TOKEN);
-      if (!tb.connect(THINGSBOARD_SERVER, TOKEN, THINGSBOARD_PORT)) {
-        Serial.println("Error: Failed to connect, retrying in 5 seconds...");
+      Serial.printf("[MQT]: Connecting to: (%s) with token (%s)\n", CORE_IOT_SERVER.c_str(), CORE_IOT_TOKEN.c_str());
+      if (!tb.connect(CORE_IOT_SERVER.c_str(), CORE_IOT_TOKEN.c_str(), CORE_IOT_PORT.toInt())) {
+        Serial.println("[MQT]: Failed to connect, retrying in 5 seconds...");
         vTaskDelay(5000 / portTICK_PERIOD_MS);
         continue;
       }
@@ -198,8 +215,20 @@ void coreiot_task(void * pvParameters){
       previousDataSend = millis();
 
       telemetry = getSensorDataJsonString();
-      Serial.println("Info: Sending telemetry: " + telemetry);
+      Serial.println("[MQT] Sending telemetry: " + telemetry);
       tb.sendTelemetryString(telemetry.c_str());
+      
+      attribute = "{";
+
+      attribute += "\"CORE_IOT_TOKEN\":\"" + CORE_IOT_TOKEN + "\",";
+      attribute += "\"CORE_IOT_SERVER\":\"" + CORE_IOT_SERVER + "\",";
+      attribute += "\"CORE_IOT_PORT\":\"" + CORE_IOT_PORT + "\",";
+      attribute += "\"AP_SSID\":\"" + AP_SSID + "\",";
+      attribute += "\"WIFI_SSID\":\"" + WIFI_SSID + "\",";
+      attribute += "\"IP_ADDRESS\":\"" + WiFi.localIP().toString() + "\"";
+
+      attribute += "}";
+      tb.sendAttributeString(attribute.c_str());
     }
 
     tb.loop();
